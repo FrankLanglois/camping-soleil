@@ -74,7 +74,7 @@ header {
 }
 header .container {
   padding-top: 100px;
-  padding-bottom: 50px;
+  padding-bottom: 15px;
 }
 header img {
   display: block;
@@ -93,11 +93,10 @@ header .intro-text .skills {
 }
 @media (min-width: 768px) {
   header .container {
-    padding-top: 200px;
-    padding-bottom: 100px;
+    padding-top: 170px;
   }
   header .intro-text .name {
-    font-size: 4.75em;
+    font-size: 3.75em;
   }
   header .intro-text .skills {
     font-size: 1.75em;
@@ -166,16 +165,17 @@ header .intro-text .skills {
     transition: padding 0.3s;
   }
   .navbar-custom .navbar-brand {
-    font-size: 2em;
+    font-size: 3em;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+    color: yellow;
   }
   .navbar-custom.affix {
     padding: 10px 0;
   }
   .navbar-custom.affix .navbar-brand {
-    font-size: 1.5em;
+    font-size: 1.75em;
   }
 }
 section {
