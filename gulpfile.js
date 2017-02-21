@@ -4,6 +4,7 @@ var browserSync = require('browser-sync').create();
 var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
+var rimraf = rename("rimraf");
 var uglify = require('gulp-uglify');
 var pkg = require('./package.json');
 
@@ -18,7 +19,7 @@ var banner = ['/*!\n',
 
 // Compile LESS files from /less into /css
 gulp.task('less', function() {
-    return gulp.src('less/freelancer.less')
+    return gulp.src('less/main.less')
         .pipe(less())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(gulp.dest('css'))
@@ -29,7 +30,7 @@ gulp.task('less', function() {
 
 // Minify compiled CSS
 gulp.task('minify-css', ['less'], function() {
-    return gulp.src('css/freelancer.css')
+    return gulp.src('css/main.css')
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('css'))
@@ -40,7 +41,7 @@ gulp.task('minify-css', ['less'], function() {
 
 // Minify JS
 gulp.task('minify-js', function() {
-    return gulp.src('js/freelancer.js')
+    return gulp.src('js/main.js')
         .pipe(uglify())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(rename({ suffix: '.min' }))
@@ -90,3 +91,22 @@ gulp.task('dev', ['browserSync', 'less', 'minify-css', 'minify-js'], function() 
     gulp.watch('*.html', browserSync.reload);
     gulp.watch('js/**/*.js', browserSync.reload);
 });
+
+// Build Production code
+
+gulp.task('build.prod', ['clean.prod', 'copy.html', 'copy.images'] );
+
+gulp.task('clean.prod', function(done) {
+    rimraf("dist", done);
+});
+
+gulp.task('copy.images', function() {
+    return gulp.src("img")
+        .pipe(gulp.dest("dist/img"));
+    });
+
+gulp.task('copy.html', function() {
+    return gulp.src("*.html")
+        .pipe(gulp.dest("dist/img"));
+});
+
