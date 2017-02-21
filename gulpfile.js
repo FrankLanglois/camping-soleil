@@ -4,7 +4,8 @@ var browserSync = require('browser-sync').create();
 var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
-var rimraf = rename("rimraf");
+var runSequence = require("run-sequence");
+var rimraf = require("rimraf");
 var uglify = require('gulp-uglify');
 var pkg = require('./package.json');
 
@@ -93,20 +94,66 @@ gulp.task('dev', ['browserSync', 'less', 'minify-css', 'minify-js'], function() 
 });
 
 // Build Production code
-
-gulp.task('build.prod', ['clean.prod', 'copy.html', 'copy.images'] );
-
 gulp.task('clean.prod', function(done) {
-    rimraf("dist", done);
+    rimraf("dist/", done);
 });
-
-gulp.task('copy.images', function() {
-    return gulp.src("img")
-        .pipe(gulp.dest("dist/img"));
-    });
 
 gulp.task('copy.html', function() {
     return gulp.src("*.html")
+        .pipe(gulp.dest("dist/"));
+});
+
+gulp.task('copy.js', function() {
+    return gulp.src("js/main.min.js")
+        .pipe(gulp.dest("dist/js/"));
+});
+
+gulp.task('copy.css', function() {
+    return gulp.src("css/main.min.css")
+        .pipe(gulp.dest("dist/css"));
+});
+
+gulp.task('copy.images', function() {
+    return gulp.src("img/**/*.*")
         .pipe(gulp.dest("dist/img"));
 });
+
+gulp.task('copy.bootstrap', function() {
+    return gulp.src("vendor/bootstrap/**/*.*")
+        .pipe(gulp.dest("dist/vendor/bootstrap/"));
+});
+
+gulp.task('clean.bootstrap', function(done) {
+    rimraf("dist/vendor/*bootstrap/js/bootstrap.js", done);
+});
+
+gulp.task('clean.bootstrap', function(done) {
+    rimraf("dist/vendor/*bootstrap/css/bootstrap.css", done);
+});
+
+gulp.task('copy.font-awesome', function() {
+    return gulp.src("vendor/font-awesome/css/font-awesome.min.css")
+        .pipe(gulp.dest("dist/vendor/font-awesome/css/"));
+});
+
+gulp.task('copy.jquery', function() {
+    return gulp.src("vendor/jquery/jquery.min.js")
+        .pipe(gulp.dest("dist/vendor/jquery/"));
+});
+
+gulp.task('build.prod', function(done){
+    runSequence(
+        'clean.prod',
+        'copy.html',
+        'copy.js',
+        'copy.css',
+        'copy.images',
+        'copy.bootstrap',
+        'clean.bootstrap',
+        'copy.font-awesome',
+        'copy.jquery',
+        done);
+});
+
+
 
