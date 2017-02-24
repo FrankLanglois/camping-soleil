@@ -199,6 +199,8 @@ header {
 @media (min-width: @screen-sm-min) {
   .navbar-custom {
     padding: 25px 0;
+    background: @theme-primary; /* For browsers that do not support gradients */
+    background: linear-gradient(@theme-primary, #6087AE);
     -webkit-transition: padding 0.3s;
     -moz-transition: padding 0.3s;
     transition: padding 0.3s;
