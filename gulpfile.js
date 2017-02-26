@@ -53,7 +53,7 @@ gulp.task('minify-js', function() {
 });
 
 // Copy vendor libraries from /node_modules into /vendor
-gulp.task('copy', function() {
+gulp.task('copy.vendor', function() {
     gulp.src(['node_modules/bootstrap/dist/**/*', '!**/npm.js', '!**/bootstrap-theme.*', '!**/*.map'])
         .pipe(gulp.dest('vendor/bootstrap'))
 
@@ -72,7 +72,7 @@ gulp.task('copy', function() {
 })
 
 // Run everything
-gulp.task('default', ['less', 'minify-css', 'minify-js', 'copy']);
+gulp.task('default', ['less', 'minify-css', 'minify-js', 'copy.vendor']);
 
 // Configure the browserSync task
 gulp.task('browserSync', function() {
@@ -131,9 +131,14 @@ gulp.task('clean.bootstrap', function(done) {
     rimraf("dist/vendor/*bootstrap/css/bootstrap.css", done);
 });
 
-gulp.task('copy.font-awesome', function() {
+gulp.task('copy.font-awesome-css', function() {
     return gulp.src("vendor/font-awesome/css/font-awesome.min.css")
         .pipe(gulp.dest("dist/vendor/font-awesome/css/"));
+});
+
+gulp.task('copy.font-awesome-fonts', function() {
+    return gulp.src('node_modules/font-awesome/fonts/**')
+        .pipe(gulp.dest('dist/vendor/font-awesome/fonts'))
 });
 
 gulp.task('copy.jquery', function() {
@@ -150,7 +155,8 @@ gulp.task('build.prod', function(done){
         'copy.images',
         'copy.bootstrap',
         'clean.bootstrap',
-        'copy.font-awesome',
+        'copy.font-awesome-css',
+        'copy.font-awesome-fonts',
         'copy.jquery',
         done);
 });
