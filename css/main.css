@@ -578,3 +578,14 @@ fieldset[disabled] .btn-success.active {
     width: 100%;
   }
 }
+.outside-link {
+  color: #2C3E50;
+  font-size: 90%;
+  text-decoration: underline;
+}
+.outside-link:hover {
+  color: #118e75;
+}
+.outside-link:active {
+  color: #2C3E50;
+}
